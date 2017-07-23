@@ -8,21 +8,21 @@ function respond(req, res, next) {
 }
 
 var server = restify.createServer();
+
 server.use(restifyBodyParser());
 server.pre(restify.plugins.pre.userAgentConnection());
-
-server.get('/hello/:name', respond);
-server.head('/hello/:name', respond);
 
 server.get('/teams', function(req, res, next) {
   res.send(team.GetTeams());
   next();
 });
+
 server.post('/teams', function(req, res, next) {
   var isSuccess = team.AddTeam(req.body.name);
   res.send('Team number: ' + isSuccess + "was added, great job");
   next();
 });
+
 server.get('/teams/:id', function(req, res, next) {
   var teamName = team.GetTeamById(req.params.id);
   res.send(teamName);
